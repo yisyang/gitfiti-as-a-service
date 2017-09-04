@@ -1,0 +1,64 @@
+body {
+  min-width: 100vw;
+  min-height: 100vh;
+}
+
+#contributions-canvas {
+  padding: 12px 0 24px 0;
+}
+
+.brush-holder {
+  display: inline-block;
+  border: 1px solid #ccc;
+  padding: 3px;
+  margin-right: 10px;
+  font-size: 0;
+  opacity: 0.8;
+}
+
+.brush-holder[data-selected='1'] {
+  border: 1px solid #000;
+  background-color: #000;
+  opacity: 1.0;
+}
+
+.brush-color {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  width: 20px;
+  height: 20px;
+}
+
+.brush-color-fifth {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  width: 4px;
+  height: 20px;
+}
+
+.brush-color-0 {
+  background-color: #eeeeee
+}
+
+.brush-color-1 {
+  background-color: #c6e48b
+}
+
+.brush-color-2 {
+  background-color: #7bc96f
+}
+
+.brush-color-3 {
+  background-color: #239a3b
+}
+
+.brush-color-4 {
+  background-color: #196127
+}
+
+.section {
+  border-top: 1px solid #ccc;
+  margin: 6px 10px 12px 10px;
+}

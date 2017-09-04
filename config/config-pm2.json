@@ -1,0 +1,22 @@
+{
+  "apps": [
+    {
+      "name": "gitfiti",
+      "script": "start.sh",
+      "error_file": "./logs/server-pm2-errors.log",
+      "out_file": "./logs/server-pm2.log",
+      "merge_logs": true,
+      "max_memory_restart": "500M",
+      "watch": [
+        "index.py",
+        "templates"
+      ],
+      "watch_options": {
+        "followSymlinks": false
+      },
+      "env": {
+        "FLASK_APP": "index.py"
+      }
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "gitfiti",
+  "description": "Bringing the power to change history to the masses.",
+  "author": "Scott Yang",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "pm2 start ./config/config-pm2.json",
+    "stop": "pm2 stop ./config/config-pm2.json --watch 0"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "pm2": "^2.4.3"
+  },
+  "license": {
+    "type": "MIT",
+    "url": "http://opensource.org/licenses/MIT"
+  },
+  "engines": {
+    "node": ">= 0.10"
+  }
+}

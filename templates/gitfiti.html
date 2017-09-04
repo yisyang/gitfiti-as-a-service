@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gitfiti as a Service</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+    <script src="static/lib/calendar-heatmap/calendar-heatmap.js"></script>
+    <script src="static/js/gitfiti.js"></script>
+    <link rel="stylesheet" type="text/css" href="static/lib/calendar-heatmap/calendar-heatmap.css">
+    <link rel="stylesheet" type="text/css" href="static/css/gitfiti.css">
+</head>
+<body>
+<p>Welcome! Just pick a brush and start making art!</p>
+
+<div id="brush-selector" class="section">
+    <h3>Select Your Brush:</h3>
+    <div class="brush-holder brush-auto" data-brush-index="" data-selected="1">
+        <span class="brush-color-fifth brush-color-0"></span>
+        <span class="brush-color-fifth brush-color-1"></span>
+        <span class="brush-color-fifth brush-color-2"></span>
+        <span class="brush-color-fifth brush-color-3"></span>
+        <span class="brush-color-fifth brush-color-4"></span>
+    </div>
+    <div class="brush-holder brush-0" data-brush-index="0">
+        <span class="brush-color brush-color-0"></span>
+    </div>
+    <div class="brush-holder brush-1" data-brush-index="1">
+        <span class="brush-color brush-color-1"></span>
+    </div>
+    <div class="brush-holder brush-2" data-brush-index="2">
+        <span class="brush-color brush-color-2"></span>
+    </div>
+    <div class="brush-holder brush-3" data-brush-index="3">
+        <span class="brush-color brush-color-3"></span>
+    </div>
+    <div class="brush-holder brush-4" data-brush-index="4">
+        <span class="brush-color brush-color-4"></span>
+    </div>
+</div>
+
+<div id="contributions-canvas" class="section">
+    <h3>Paint Your Contributions:</h3>
+    <div id="contributions-graph"></div>
+</div>
+
+</body>
+</html>
