@@ -1,0 +1,4 @@
+client_id: YOUR_GITHUB_APP_CLIENT_ID
+client_secret: YOUR_GITHUB_APP_CLIENT_SECRET
+flask_session_secret: ANY_RANDOM_STRING
+state_pepper: ANY_RANDOM_STRING
