@@ -1,0 +1,8 @@
+# IDE
+.idea
+
+# Cache
+__pycache__
+
+# Logs
+logs
