@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gitfiti as a Service</title>
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+    <link rel="stylesheet" type="text/css" href="static/css/gitfiti.css">
+</head>
+<body>
+<div id="menu" class="pure-menu-horizontal">
+    <a href="/"><span class="pure-menu-heading">Gitfiti as a Service</span></a>
+
+    <ul class="pure-menu-list">
+        {% if userProfile %}
+        <li class="pure-menu-item"><a href="/gitfiti" class="pure-menu-link">Make Commits</a></li>
+        <li class="pure-menu-item"><a href="https://github.com/{{ userProfile.login }}" class="pure-menu-link" target="_blank">View Profile</a></li>
+        <li class="pure-menu-item"><a href="https://github.com/{{ userProfile.login }}/Gitfiti-Test" class="pure-menu-link" target="_blank">View Repository</a></li>
+        <li class="pure-menu-item"><a href="/logout-github" class="pure-menu-link">Revoke Access</a></li>
+        {%  else %}
+        <li class="pure-menu-item"><a href="/login-github" class="pure-menu-link">Authorize Application</a></li>
+        {% endif %}
+    </ul>
+</div>
+<div id="content" class="content">
+    <div class="section">
+        {% if userProfile %}
+            <p>You are logged in as {{ userProfile.name }}.</p>
+            <a href="/gitfiti"><button class="button-success pure-button">Make Commits</button></a>
+        {% else %}
+            <p>Gitfiti as a Service will require create and update access to your public repositories.</p>
+            <a href="/login-github"><button class="button-success pure-button">Authorize Application on Github</button></a>
+        {% endif %}
+    </div>
+</div>
+</body>
+</html>

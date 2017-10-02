@@ -3,46 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <title>Gitfiti as a Service</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
     <script src="static/lib/calendar-heatmap/calendar-heatmap.js"></script>
     <script src="static/js/gitfiti.js"></script>
     <link rel="stylesheet" type="text/css" href="static/lib/calendar-heatmap/calendar-heatmap.css">
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
     <link rel="stylesheet" type="text/css" href="static/css/gitfiti.css">
 </head>
 <body>
-<p>Welcome! Just pick a brush and start making art!</p>
+<div id="menu" class="pure-menu-horizontal">
+    <a href="/"><span class="pure-menu-heading">Gitfiti as a Service</span></a>
 
-<div id="brush-selector" class="section">
-    <h3>Select Your Brush:</h3>
-    <div class="brush-holder brush-auto" data-brush-index="" data-selected="1">
-        <span class="brush-color-fifth brush-color-0"></span>
-        <span class="brush-color-fifth brush-color-1"></span>
-        <span class="brush-color-fifth brush-color-2"></span>
-        <span class="brush-color-fifth brush-color-3"></span>
-        <span class="brush-color-fifth brush-color-4"></span>
+    <ul class="pure-menu-list">
+        {% if userProfile %}
+        <li class="pure-menu-item pure-menu-active"><a class="pure-menu-link">Make Commits</a></li>
+        <li class="pure-menu-item"><a href="https://github.com/{{ userProfile.login }}" class="pure-menu-link" target="_blank">View Profile</a></li>
+        <li class="pure-menu-item"><a href="https://github.com/{{ userProfile.login }}/Gitfiti-Test" class="pure-menu-link" target="_blank">View Repository</a></li>
+        <li class="pure-menu-item"><a href="/logout-github" class="pure-menu-link">Revoke Access</a></li>
+        {%  else %}
+        <li class="pure-menu-item"><a href="/login-github" class="pure-menu-link">Authorize Application</a></li>
+        {% endif %}
+    </ul>
+</div>
+<div id="content" class="content">
+    <div id="brush-selector" class="section">
+        <h2 class="content-subheading">0. Select Brush</h2>
+        <div class="brush-holder brush-auto" data-brush-index="" data-selected="1" title="Auto">
+            <span class="brush-color-fifth brush-color-0"></span>
+            <span class="brush-color-fifth brush-color-1"></span>
+            <span class="brush-color-fifth brush-color-2"></span>
+            <span class="brush-color-fifth brush-color-3"></span>
+            <span class="brush-color-fifth brush-color-4"></span>
+        </div>
+        <div class="brush-holder brush-0" data-brush-index="0">
+            <span class="brush-color brush-color-0"></span>
+        </div>
+        <div class="brush-holder brush-1" data-brush-index="1">
+            <span class="brush-color brush-color-1"></span>
+        </div>
+        <div class="brush-holder brush-2" data-brush-index="2">
+            <span class="brush-color brush-color-2"></span>
+        </div>
+        <div class="brush-holder brush-3" data-brush-index="3">
+            <span class="brush-color brush-color-3"></span>
+        </div>
+        <div class="brush-holder brush-4" data-brush-index="4">
+            <span class="brush-color brush-color-4"></span>
+        </div>
     </div>
-    <div class="brush-holder brush-0" data-brush-index="0">
-        <span class="brush-color brush-color-0"></span>
+
+    <div id="contributions-canvas" class="section">
+        <h2 class="content-subheading">1. Make Art</h2>
+        <div id="contributions-graph"></div>
     </div>
-    <div class="brush-holder brush-1" data-brush-index="1">
-        <span class="brush-color brush-color-1"></span>
+
+    <div id="verify-section" class="section">
+        <h2 class="content-subheading">2. Prepare Commits</h2>
+        <p id="verify-result-message" class="message-hidden"></p>
+        <button id="verify-button" class="button-success pure-button">Generate Commits</button>
     </div>
-    <div class="brush-holder brush-2" data-brush-index="2">
-        <span class="brush-color brush-color-2"></span>
-    </div>
-    <div class="brush-holder brush-3" data-brush-index="3">
-        <span class="brush-color brush-color-3"></span>
-    </div>
-    <div class="brush-holder brush-4" data-brush-index="4">
-        <span class="brush-color brush-color-4"></span>
+
+    <div class="section">
+        <h2 class="content-subheading">3. Push!</h2>
+        <p id="push-result-message" class="message-hidden"></p>
+        <button id="push-button" class="button-success pure-button" disabled>Create Repo!</button>
+        <a href="https://github.com/{{ userProfile.login }}/Gitfiti-Test" target="_blank"><button class="pure-button">View Repo</button></a>
     </div>
 </div>
-
-<div id="contributions-canvas" class="section">
-    <h3>Paint Your Contributions:</h3>
-    <div id="contributions-graph"></div>
-</div>
-
 </body>
 </html>

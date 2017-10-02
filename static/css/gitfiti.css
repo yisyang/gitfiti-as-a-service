@@ -1,23 +1,67 @@
 body {
   min-width: 100vw;
   min-height: 100vh;
+  background: #8fb359 url('/static/image/green-leaf.jpg');
+  background-size: cover;
+}
+
+#content {
+  max-width: 768px;
+  min-height: 100vh;
+  background-color: rgba(255, 255, 255, 0.9);
+  margin: 0 auto 10px auto;
+}
+
+#content .section {
+  padding: 4px 10px 16px 10px;
+  text-align: center;
+  background-color: #f8f8f8;
+}
+
+#content .section:nth-child(even) {
+  background-color: #fff;
+}
+
+#content .content-subheading {
+  font-size: 1.3em;
+  font-weight: 400;
 }
 
 #contributions-canvas {
   padding: 12px 0 24px 0;
 }
 
+#menu {
+  background-color: #d6ebff;
+}
+
+#menu .pure-menu-active > .pure-menu-link,
+#menu .pure-menu-active > .pure-menu-link:focus,
+#menu .pure-menu-active > .pure-menu-link:hover {
+  background-color: #3076ff;
+  color: #fff;
+}
+
+#menu .pure-menu-link:focus, #menu .pure-menu-link:hover {
+  background-color: #acd6ff;
+  color: #224;
+}
+
 .brush-holder {
   display: inline-block;
-  border: 1px solid #ccc;
-  padding: 3px;
+  border: 2px solid #aaa;
+  border-radius: 15px;
+  overflow: hidden;
+  background-color: #fff;
+  padding: 0;
   margin-right: 10px;
   font-size: 0;
   opacity: 0.8;
+  cursor: pointer;
 }
 
 .brush-holder[data-selected='1'] {
-  border: 1px solid #000;
+  border: 2px solid #000;
   background-color: #000;
   opacity: 1.0;
 }
@@ -58,7 +102,52 @@ body {
   background-color: #196127
 }
 
-.section {
-  border-top: 1px solid #ccc;
-  margin: 6px 10px 12px 10px;
+.button-success,
+.button-error,
+.button-warning,
+.button-secondary {
+  color: white;
+  border-radius: 4px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.button-success {
+  background: rgb(28, 184, 65);
+}
+
+.button-error {
+  background: rgb(202, 60, 60);
+}
+
+.button-warning {
+  background: rgb(223, 117, 20);
+}
+
+.button-secondary {
+  background: rgb(66, 184, 221);
+}
+
+.message-hidden {
+  display: none;
+}
+
+.message-success {
+  margin: 12px 36px;
+  padding: 24px;
+  background: rgb(28, 184, 65);
+  color: #fff;
+}
+
+.message-pending {
+  margin: 12px 36px;
+  padding: 24px;
+  background: rgb(255, 255, 128);
+  color: #000;
+}
+
+.message-error {
+  margin: 12px 36px;
+  padding: 24px;
+  background: rgb(202, 60, 60);
+  color: #fff;
 }

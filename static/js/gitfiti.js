@@ -39,9 +39,8 @@ window.onload = function () {
   // Any integer <= maxCount to set day contributions to said integer.
   let brushSize = 'auto';
 
-  let setBrushSize = function (newBrushSize) {
-    brushSize = newBrushSize;
-  };
+  // Initialize array of commits to push.
+  let commitsToPush = [];
 
   // Track mouse state.
   let mouseDown = 0;
@@ -100,10 +99,115 @@ window.onload = function () {
   document.body.addEventListener('mousedown', () => contributionsChart.tooltipEnabled(false));
   document.body.addEventListener('mouseup', () => contributionsChart.tooltipEnabled(true));
 
-  // TODO: Before submitting requests, check that at least 1 usage of largest
-  //       bracket (14) is present.
-  // TODO: When submitting requests, convert 1st largest bracket usage (14)
-  //       into max (24), this is required for proper color scaling.
+  // Submit buttons.
+  document.querySelector('#verify-button').addEventListener('click', () => computeChanges());
+  document.querySelector('#push-button').addEventListener('click', () => submitCommits());
+
+  /**
+   * Compute changes from canvas.
+   */
+  function computeChanges() {
+    let data = contributionsChart.data();
+    let commits = [];
+    let commitsTotal = 0;
+    let maxRangePresent = false;
+    for (let datum of data) {
+      if (datum.count > 0) {
+        let count = datum.count;
+
+        // Before submitting requests, check that at least 1 usage of largest
+        // bracket (14) is present.
+        // When submitting requests, convert 1st largest bracket usage (14)
+        // into max (24), this is required for proper color scaling.
+        if (!maxRangePresent && count === 14) {
+          maxRangePresent = true;
+          count = 24;
+        }
+        commits.push({
+          "date": moment.utc(datum.date).format().replace('+00:00', 'Z'),
+          "count": count
+        });
+        commitsTotal += count;
+      }
+    }
+
+    if (maxRangePresent) {
+      commitsToPush = commits;
+      document.querySelector('#verify-result-message').className = 'message-success';
+      document.querySelector('#verify-result-message').innerText = commitsTotal + ' commits ready to be pushed.';
+      document.querySelector('#push-button').removeAttribute('disabled');
+      document.querySelector('#push-result-message').className = 'message-hidden';
+    } else {
+      commitsToPush = [];
+      document.querySelector('#verify-result-message').className = 'message-error';
+      document.querySelector('#verify-result-message').innerText = 'Invalid data. Please ensure at least 1 commit contains the darkest color.';
+      document.querySelector('#push-button').setAttribute('disabled', 'disabled');
+      document.querySelector('#push-result-message').className = 'message-hidden';
+    }
+  }
+
+  /**
+   * Set brush size for making art.
+   *
+   * @param {string|int} newBrushSize
+   */
+  function setBrushSize(newBrushSize) {
+    brushSize = newBrushSize;
+  }
+
+  /**
+   * Set new count for cell described by data in canvas.
+   *
+   * @param data
+   * @param {int} newCount
+   */
+  function setNewCount(data, newCount) {
+    let dataFound = contributionsChart.data().find(function (element) {
+      return moment(element.date).isSame(data.date, 'day');
+    });
+    if (dataFound) {
+      dataFound.count = newCount;
+    } else {
+      contributionsChart.data().push({
+        'date': data.date,
+        'count': newCount
+      });
+    }
+  }
+
+  /**
+   * Submit changes to API, for API to push.
+   */
+  function submitCommits() {
+    // First disable button.
+    document.querySelector('#verify-result-message').className = 'message-hidden';
+    document.querySelector('#push-button').setAttribute('disabled', 'disabled');
+
+    // Display loading message.
+    document.querySelector('#push-result-message').className = 'message-pending';
+    document.querySelector('#push-result-message').innerText = 'Processing...';
+
+    // Send request.
+    let req = new XMLHttpRequest();
+    req.addEventListener("load", submitCommitCallback);
+    req.open("POST", "/post-commits-to-github");
+    req.setRequestHeader("Content-Type", "application/json");
+    req.send(JSON.stringify({ commits: commitsToPush }));
+  }
+
+  /**
+   * Callback for submit to API.
+   */
+  function submitCommitCallback() {
+    let resp = JSON.parse(this.responseText);
+    if (this.status === 200) {
+      document.querySelector('#push-result-message').className = 'message-success';
+      document.querySelector('#push-result-message').innerText = resp.message;
+    } else {
+      document.querySelector('#push-result-message').className = 'message-error';
+      document.querySelector('#push-result-message').innerText = resp && resp.message ? resp.message : 'Server error.';
+    }
+  }
 
   /**
    * Update canvas.
@@ -139,26 +243,6 @@ window.onload = function () {
         elem.setAttribute('fill', colorBrackets[i].color);
         break;
       }
-    }
-  }
-
-  /**
-   * Callback for setting new count.
-   *
-   * @param data
-   * @param newCount
-   */
-  function setNewCount(data, newCount) {
-    let dataFound = contributionsChart.data().find(function (element) {
-      return moment(element.date).isSame(data.date, 'day');
-    });
-    if (dataFound) {
-      dataFound.count = newCount;
-    } else {
-      contributionsChart.data().push({
-        'date': data.date,
-        'count': newCount
-      });
     }
   }
 };
